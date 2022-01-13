@@ -41,29 +41,54 @@ const App = () => {
   ];
 
   //대화형 리액트 컴포넌트 : useState Hook
-  const [searchTerm, setSearchTerm] = React.useState('');
-
-  const handleChange = event => {
+  const [searchTerm, setSearchTerm] = React.useState('React');
+ 
+  const handleSearch = event => {
+    //console.log(event.target.value);
     setSearchTerm(event.target.value);
   };
-  
+
+  const searchedStories = stories.filter(story => 
+    story.author
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div>
       <h1>My Hacker Stories</h1>
 
-      <label htmlFor="search">Search: </label>
-      <input id="search" type="text" onChange={handleChange}></input>
-
-      <p>
-        Searching for <strong>{searchTerm}</strong>
-      </p>
+      <Search search={searchTerm} onSearch={handleSearch} />  
 
       <hr />      
 
-      <List list={stories} />
+      <List list={searchedStories} />
     </div>
-  )
+  );
+
+
+
 };
+
+const Search = (props) => {
+
+    // const handleChange = event => {
+    //   setSearchTerm(event.target.value);
+
+    //   props.onSearch(event);
+    // };
+    
+    return (
+      <div>  
+        <label htmlFor="search">Search: </label>
+        <input id="search" type="text" onChange={props.onSearch}></input>
+  
+        {/* <p>
+          Searching for <strong>{searchTerm}</strong>
+        </p> */}
+      </div>
+    );
+}
 
 
 const List = props => {
